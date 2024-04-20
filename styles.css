@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e5f31f;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #e5f31f;
+    border-radius: 5px;
+    text-align: center;
+}
+
+h1 {
+    color: #146929;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 75px;
+}
+
+button {
+    display: block; 
+    padding: 10px 20px;
+    margin: 10px auto; 
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#nuevaTareaInput {
+    width: 400px;
+    height: 40px;
+    font-size: 16px;
+}
+
+#tareaInput {
+    width: 400px;
+    height: 40px;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #45a049;
+}
