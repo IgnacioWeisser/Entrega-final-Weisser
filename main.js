@@ -1,94 +1,81 @@
-
 class Tarea {
-    constructor(id, descripcion, completada) {
+    constructor(id, descripcion, completada, fechaCreacion) {
         this.id = id;
         this.descripcion = descripcion;
         this.completada = completada;
+        this.fechaCreacion = fechaCreacion;
     }
 }
 
-let listaTareas = [];
-let historialTareasCompletadas = [];
+let listaTareas = JSON.parse(localStorage.getItem('tareas')) || [];
 
 function agregarTarea() {
-    let descripcion = document.getElementById("nuevaTareaInput").value.trim();
-    if (descripcion !== "") {
-        let nuevaTarea = new Tarea(listaTareas.length + 1, descripcion, false);
+    const input = document.getElementById("nuevaTareaInput");
+    const descripcion = input.value.trim();
+    if (descripcion) {
+        const nuevaTarea = new Tarea(listaTareas.length + 1, descripcion, false, new Date().toISOString());
         listaTareas.push(nuevaTarea);
-        alert("Tarea agregada: " + descripcion);
-        document.getElementById("nuevaTareaInput").value = ""; 
+        localStorage.setItem('tareas', JSON.stringify(listaTareas));
+        actualizarTablaTareas();
+        input.value = "";  // Clear the input after adding
+        Swal.fire({
+            title: '¡Éxito!',
+            text: 'Tarea agregada correctamente',
+            icon: 'success'
+        });
     } else {
-        alert("La descripción de la tarea no puede estar vacía.");
+        Swal.fire({
+            title: 'Error',
+            text: 'La descripción de la tarea no puede estar vacía.',
+            icon: 'error'
+        });
     }
 }
 
-function verTareas() {
-    if (listaTareas.length === 0) {
-        alert("No hay tareas en la lista.");
-    } else {
-        let mensaje = "Lista de tareas disponibles:\n\n";
-        listaTareas.forEach(function (tarea) {
-            let estado = tarea.completada ? "completada" : "pendiente";
-            mensaje += tarea.id + ". " + tarea.descripcion + " - Estado: " + estado + "\n";
-        });
-        alert(mensaje);
-    }
-}
-
-function completarTarea() {
-    let tareasDisponibles = listaTareas.filter(tarea => !tarea.completada);
-    if (tareasDisponibles.length === 0) {
-        alert("No hay tareas disponibles para marcar como completadas.");
-    } else {
-        let mensaje = "Seleccione la tarea que desea marcar como completada:\n\n";
-        tareasDisponibles.forEach(function (tarea, index) {
-            mensaje += (index + 1) + ". " + tarea.descripcion + "\n";
-        });
-        let indice = prompt(mensaje);
-        indice = parseInt(indice);
-        if (isNaN(indice) || indice < 1 || indice > tareasDisponibles.length) {
-            alert("Índice inválido.");
+function actualizarTablaTareas() {
+    const tbody = document.getElementById('tablaTareas').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = '';  // Clear previous rows
+    listaTareas.forEach(tarea => {
+        let row = tbody.insertRow();
+        row.insertCell(0).textContent = tarea.id;
+        row.insertCell(1).textContent = tarea.descripcion;
+        row.insertCell(2).textContent = tarea.fechaCreacion;
+        let completarCell = row.insertCell(3);
+        if (!tarea.completada) {
+            let completarBtn = document.createElement('button');
+            completarBtn.textContent = 'Completar';
+            completarBtn.onclick = function() { completarTarea(tarea.id); };
+            completarCell.appendChild(completarBtn);
         } else {
-            let tareaCompletada = listaTareas.find(tarea => tarea.id === tareasDisponibles[indice - 1].id);
-            tareaCompletada.completada = true;
-            tareaCompletada.fechaCompletada = new Date();
-            historialTareasCompletadas.push(tareaCompletada);
-            alert("Tarea marcada como completada.");
+            completarCell.textContent = 'Completada';
         }
-    }
-}
-
-
-function verify(id, arr) {
-    if (arr.some(tarea => tarea.id === id && !tarea.completada)) {
-        return true;
-    }
-    return false;
-}
-
-function mostrarTareasCompletadas() {
-    if (historialTareasCompletadas.length === 0) {
-        alert("No hay tareas completadas en el historial.");
-    } else {
-        let mensaje = "Historial de tareas completadas:\n\n";
-        historialTareasCompletadas.forEach(function (tarea, index) {
-            mensaje += (index + 1) + ". " + tarea.descripcion + "\n";
-        });
-        alert(mensaje);
-        localStorage.setItem('historialTareasCompletadas', JSON.stringify(historialTareasCompletadas));
-
-    }
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("agregarBtn").addEventListener("click", agregarTarea);
-    document.getElementById("verBtn").addEventListener("click", verTareas);
-    document.getElementById("completarBtn").addEventListener("click", function() {
-        console.log("Botón de completar tarea clickeado."); 
-        completarTarea(); 
     });
-    document.getElementById("mostrarBtn").addEventListener("click", mostrarTareasCompletadas);
-});
+}
 
+function completarTarea(id) {
+    const tarea = listaTareas.find(t => t.id === id);
+    if (tarea && !tarea.completada) {
+        tarea.completada = true;
+        tarea.fechaCompletada = new Date().toISOString();
+        localStorage.setItem('tareas', JSON.stringify(listaTareas));
+        actualizarTablaTareas();
+        // Alerta de SweetAlert para confirmar que la tarea ha sido completada
+        Swal.fire({
+            title: '¡Tarea Completada!',
+            text: 'La tarea ha sido marcada como completada.',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+        });
+    } else if (tarea && tarea.completada) {
+        // Si la tarea ya estaba completada, informar al usuario
+        Swal.fire({
+            title: 'Tarea ya completada',
+            text: 'Esta tarea ya fue completada anteriormente.',
+            icon: 'info',
+            confirmButtonText: 'Entendido'
+        });
+    }
+}
 
+document.getElementById("agregarBtn").addEventListener("click", agregarTarea);
+document.addEventListener("DOMContentLoaded", actualizarTablaTareas);

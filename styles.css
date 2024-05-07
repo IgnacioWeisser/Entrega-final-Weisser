@@ -21,9 +21,8 @@ h1 {
 }
 
 button {
-    display: block; 
     padding: 10px 20px;
-    margin: 10px auto; 
+    margin: 10px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
@@ -33,17 +32,28 @@ button {
     transition: background-color 0.3s ease;
 }
 
-#nuevaTareaInput {
+button:hover {
+    background-color: #45a049;
+}
+
+#nuevaTareaInput, #tareaInput {
     width: 400px;
     height: 40px;
     font-size: 16px;
 }
 
-#tareaInput {
-    width: 400px;
-    height: 40px;
-    font-size: 16px;
+table {
+    width: 100%;
+    margin-top: 20px;
 }
-button:hover {
-    background-color: #45a049;
+
+th, td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
 }

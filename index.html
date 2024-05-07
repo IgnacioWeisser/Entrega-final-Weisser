@@ -5,20 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto final</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
         <h1>Lista de Tareas</h1>
-        <input type="text" id="nuevaTareaInput" placeholder="Ingrese tarea, luego presione el Boton Agregar Tarea 😊">
-                <button id="agregarBtn">Agregar Tarea</button>
+        <input type="text" id="nuevaTareaInput" placeholder="Ingrese tarea, luego presione el Botón Agregar Tarea 😊">
+        <button id="agregarBtn">Agregar Tarea</button>
         
-        <button id="verBtn">Ver Tareas</button>
-        <input type="text" id="tareaInput" placeholder="  Ingrese el ID de tarea y presione completar tarea 😊">
-        <button id="completarBtn">Completar Tarea</button>
-        <button id="mostrarBtn">Mostrar Tareas Completadas</button>
+        <table id="tablaTareas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descripción</th>
+                    <th>Fecha Creación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las tareas se mostrarán aquí -->
+            </tbody>
+        </table>
     </div>
 
     <script src="./main.js"></script>
 </body>
 </html>
-        
