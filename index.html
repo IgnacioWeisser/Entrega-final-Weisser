@@ -3,28 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto final</title>
+    <title>Proyecto de Tareas</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Lista de Tareas</h1>
-        <input type="text" id="nuevaTareaInput" placeholder="Ingrese tarea, luego presione el Botón Agregar Tarea 😊">
-        <button id="agregarBtn">Agregar Tarea</button>
-        
+        <div class="welcome-message">
+            Bienvenido al Gestor de Tareas Global. Puedes asignar tareas a cualquier persona en el mundo. ¡Obtén un usuario y comienza a asignar tareas y cuando esten listas marca completar!
+        </div>
+        <div id="userInfo" class="user-info"></div>
+        <button id="fetchUser">Obtener Usuario</button>
+        <input type="text" id="nuevaTareaInput" placeholder="Ingrese nueva tarea" disabled>
+        <button id="agregarBtn" disabled>Agregar Tarea</button>
+
+        <h2>Tareas Activas</h2>
         <table id="tablaTareas">
             <thead>
                 <tr>
+                    <th>Imagen</th>
                     <th>ID</th>
                     <th>Descripción</th>
+                    <th>Prioridad</th>
                     <th>Fecha Creación</th>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>País</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                
-            </tbody>
+            <tbody></tbody>
+        </table>
+
+        <h2>Tareas Completadas</h2>
+        <table id="tareasCompletadas">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>ID</th>
+                    <th>Descripción</th>
+                    <th>Prioridad</th>
+                    <th>Fecha Completada</th>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>País</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
         </table>
     </div>
 
